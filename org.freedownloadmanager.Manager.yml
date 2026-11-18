@@ -19,6 +19,9 @@ finish-args:
   - --talk-name=com.canonical.Unity.LauncherEntry
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-download
+  - --filesystem=xdg-config/google-chrome/NativeMessagingHosts:create
+  - --filesystem=xdg-config/BraveSoftware/Brave-Browser/NativeMessagingHosts:create
+  - --filesystem=home/.mozilla/native-messaging-hosts:create
   - --env=LD_LIBRARY_PATH=/app/lib:/app/extra/usr/lib:/app/extra/usr/lib/x86_64-linux-gnu
 
 modules:
@@ -140,7 +143,7 @@ modules:
 
             exports_dir=$(sed -n 's|^app-path=\(/.*\)/app/.*|\1|p' /.flatpak-info)
             export FDM_WENATIVEHOST_PATH="${exports_dir:-/var/lib/flatpak}/exports/bin/org.freedownloadmanager.Manager"
-            
+
             export LD_PRELOAD="/app/lib/wenativehost-fix.so${LD_PRELOAD:+:$LD_PRELOAD}"
 
             readonly chromium_origins=(
