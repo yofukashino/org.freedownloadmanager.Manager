@@ -93,7 +93,7 @@ modules:
         - install -Dm755 wenativehost-fix.so ${FLATPAK_DEST}/lib/wenativehost-fix.so
     sources:
       - type: file
-        path: wenativehost-path-fix.c
+        path: wenativehost-fix.c
 
   - name: fdm
     buildsystem: simple
