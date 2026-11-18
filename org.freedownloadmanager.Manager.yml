@@ -83,6 +83,15 @@ modules:
         sha256: e0c77e6e96843581ff2668dc9a10f676be0e78209ef198e98646184858efe164
 
 
+  - name: wenativehost-fix
+    buildsystem: simple
+    build-commands:
+        - cc -shared -fPIC -O2 -o wenativehost-fix.so wenativehost-fix.c -ldl
+        - install -Dm755 wenativehost-fix.so ${FLATPAK_DEST}/lib/wenativehost-fix.so
+    sources:
+      - type: file
+        path: wenativehost-path-fix.c
+
   - name: fdm
     buildsystem: simple
     build-commands:
@@ -128,6 +137,11 @@ modules:
         commands:
           - |
             set -euo pipefail
+
+            exports_dir=$(sed -n 's|^app-path=\(/.*\)/app/.*|\1|p' /.flatpak-info)
+            export FDM_WENATIVEHOST_PATH="${exports_dir:-/var/lib/flatpak}/exports/bin/org.freedownloadmanager.Manager"
+            
+            export LD_PRELOAD="/app/lib/wenativehost-fix.so${LD_PRELOAD:+:$LD_PRELOAD}"
 
             readonly chromium_origins=(
                 'chrome-extension://ahmpjcflkgiildlgicmcieglgoilbfdp/'
